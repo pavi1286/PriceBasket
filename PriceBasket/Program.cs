@@ -99,9 +99,6 @@ namespace PriceBasket
 
                 foreach (var item in discountedItems)
                 {
-
-                    Console.WriteLine(item.Key);
-
                     Double calculatedDiscount = 0;
                     Double unitPrice = 0;
 
@@ -119,26 +116,26 @@ namespace PriceBasket
                         }
                         else
                         {
-                            if (_cartItemsList.Where(x => x.ItemName.Contains(discountForItem.OtherDiscountedProductName)).Count() > 0)
+                            int countDiscountedProduct = _cartItemsList.Where(x => x.ItemName.Contains(discountForItem.OtherDiscountedProductName)).Count();
+                            if (countDiscountedProduct > 0)
                             {
-                                int noofSoupForDiscount = item.Count() / discountForItem.NoOfItemsEligibleForDiscount;
-                                if (_cartItemsList.Where(x => x.ItemName.Contains(discountForItem.OtherDiscountedProductName)).Count() <= noofSoupForDiscount)
+                                int noOfProductForDiscount = item.Count() / discountForItem.NoOfItemsEligibleForDiscount;
+                                if (countDiscountedProduct <= noOfProductForDiscount)
                                 {
                                     unitPrice = _goodsList.Where(x => x.ItemName == discountForItem.OtherDiscountedProductName).FirstOrDefault().Price;
-                                    calculatedDiscount = _cartItemsList.Where(x => x.ItemName.Contains(discountForItem.OtherDiscountedProductName)).Count() * unitPrice * (discountForItem.DiscountValue / 100);
+                                    calculatedDiscount = countDiscountedProduct * unitPrice * (discountForItem.DiscountValue / 100);
                                 }
                             }
                         }
-                        
 
                         finalDiscountsList.Add(new FinalDiscounts { DiscountAmout = calculatedDiscount, DiscountText = discountForItem.DiscountText });
                     }
                 }
             }
-            else
+            if (finalDiscountsList.Count == 0)
             {
                 String noOffersText = "(no offers available)";
-                finalDiscountsList.Add(new FinalDiscounts { DiscountAmout = 0.0, DiscountText = noOffersText });                
+                finalDiscountsList.Add(new FinalDiscounts { DiscountAmout = 0.0, DiscountText = noOffersText });
             }
 
             _finalReceipt.FinalDiscounts = finalDiscountsList;
