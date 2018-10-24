@@ -8,9 +8,9 @@ namespace PriceBasket
 {
     class Program
     {
-        static List<Goods> _goodsList = new List<Goods>();
+        static List<Products> _productsList = new List<Products>();
         static List<Discounts> _discountsList = new List<Discounts>();
-        static List<Goods> _cartItemsList = new List<Goods>();
+        static List<Products> _cartItemsList = new List<Products>();
         static Receipt _finalReceipt = new Receipt();
         
 
@@ -35,17 +35,17 @@ namespace PriceBasket
         {
             foreach (String item in itemsList)
             {
-                Goods selectedItem = _goodsList.Where(x => x.ItemName == item.ToString()).FirstOrDefault();
+                Products selectedItem = _productsList.Where(x => x.ItemName == item.ToString()).FirstOrDefault();
                 _cartItemsList.Add(selectedItem);
             }
         }
 
         private static void InitialiseValues()
         {
-            _goodsList.Add(new Goods { ItemId = 1, ItemName = "SOUP", Price = .65, UnitofMeasure = "tin", HasDiscount = true });
-            _goodsList.Add(new Goods { ItemId = 2, ItemName = "BREAD", Price = .80, UnitofMeasure = "loaf", HasDiscount = false });
-            _goodsList.Add(new Goods { ItemId = 3, ItemName = "MILK", Price = 1.3, UnitofMeasure = "bottle", HasDiscount = false });
-            _goodsList.Add(new Goods { ItemId = 4, ItemName = "APPLES", Price = 1, UnitofMeasure = "bag", HasDiscount = true });
+            _productsList.Add(new Products { ItemId = 1, ItemName = "SOUP", Price = .65, UnitofMeasure = "tin", HasDiscount = true });
+            _productsList.Add(new Products { ItemId = 2, ItemName = "BREAD", Price = .80, UnitofMeasure = "loaf", HasDiscount = false });
+            _productsList.Add(new Products { ItemId = 3, ItemName = "MILK", Price = 1.3, UnitofMeasure = "bottle", HasDiscount = false });
+            _productsList.Add(new Products { ItemId = 4, ItemName = "APPLES", Price = 1, UnitofMeasure = "bag", HasDiscount = true });
 
             
             _discountsList.Add(new Discounts
@@ -122,7 +122,7 @@ namespace PriceBasket
                                 int noOfProductForDiscount = item.Count() / discountForItem.NoOfItemsEligibleForDiscount;
                                 if (countDiscountedProduct <= noOfProductForDiscount)
                                 {
-                                    unitPrice = _goodsList.Where(x => x.ItemName == discountForItem.OtherDiscountedProductName).FirstOrDefault().Price;
+                                    unitPrice = _productsList.Where(x => x.ItemName == discountForItem.OtherDiscountedProductName).FirstOrDefault().Price;
                                     calculatedDiscount = countDiscountedProduct * unitPrice * (discountForItem.DiscountValue / 100);
                                 }
                             }
@@ -160,7 +160,7 @@ namespace PriceBasket
         }
     }
 
-    class Goods
+    class Products
     {
         public int ItemId { get; set; }
         public String ItemName { get; set; }
