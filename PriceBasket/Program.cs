@@ -47,6 +47,7 @@ namespace PriceBasket
             _goodsList.Add(new Goods { ItemId = 3, ItemName = "MILK", Price = 1.3, UnitofMeasure = "bottle", HasDiscount = false });
             _goodsList.Add(new Goods { ItemId = 4, ItemName = "APPLES", Price = 1, UnitofMeasure = "bag", HasDiscount = true });
 
+            
             _discountsList.Add(new Discounts
             {
                 DiscountId = 1,
@@ -55,9 +56,8 @@ namespace PriceBasket
                 DiscountText = "Apples 10 % off: ",
                 DiscountValue = 10,
                 DiscountUnit = " %",
-                DiscountOnSameProduct = true
-                
-                
+                DiscountOnSameProduct = true,
+                DiscountValidTime = new Duration { StartDate = new DateTime(21/10/2018), EndDate = new DateTime(27/10/2018) }
             });
             _discountsList.Add(new Discounts
             {
@@ -68,7 +68,8 @@ namespace PriceBasket
                 DiscountValue = 50,
                 DiscountUnit = "%",
                 DiscountOnSameProduct = false,
-                OtherDiscountedProductName = "BREAD"
+                OtherDiscountedProductName = "BREAD",
+                DiscountValidTime = new Duration { StartDate = new DateTime(21/10/2018), EndDate = new DateTime(27/10/2018) }
             });
         }
 
@@ -92,12 +93,15 @@ namespace PriceBasket
             List<FinalDiscounts> finalDiscountsList = new List<FinalDiscounts>();
 
             if (_cartItemsList.Where(x => x.HasDiscount == true).Count() > 0)
-            {   
-                var discountedItems = _cartItemsList.GroupBy(x => x.ItemId).ToList();
+            {
+                var discountedItems = _cartItemsList.Where(x => x.HasDiscount == true).GroupBy(x => x.ItemId).ToList();
                 
 
                 foreach (var item in discountedItems)
                 {
+
+                    Console.WriteLine(item.Key);
+
                     Double calculatedDiscount = 0;
                     Double unitPrice = 0;
 
@@ -109,11 +113,23 @@ namespace PriceBasket
                     {
 
                         if (discountForItem.DiscountOnSameProduct == true)
+                        {
                             unitPrice = item.FirstOrDefault().Price;
+                            calculatedDiscount = item.Count() * unitPrice * (discountForItem.DiscountValue / 100);
+                        }
                         else
-                            unitPrice = _goodsList.Where(x => x.ItemName == discountForItem.OtherDiscountedProductName).FirstOrDefault().Price;
-
-                        calculatedDiscount = item.Count() * unitPrice * (discountForItem.DiscountValue / 100);
+                        {
+                            if (_cartItemsList.Where(x => x.ItemName.Contains(discountForItem.OtherDiscountedProductName)).Count() > 0)
+                            {
+                                int noofSoupForDiscount = item.Count() / discountForItem.NoOfItemsEligibleForDiscount;
+                                if (_cartItemsList.Where(x => x.ItemName.Contains(discountForItem.OtherDiscountedProductName)).Count() <= noofSoupForDiscount)
+                                {
+                                    unitPrice = _goodsList.Where(x => x.ItemName == discountForItem.OtherDiscountedProductName).FirstOrDefault().Price;
+                                    calculatedDiscount = _cartItemsList.Where(x => x.ItemName.Contains(discountForItem.OtherDiscountedProductName)).Count() * unitPrice * (discountForItem.DiscountValue / 100);
+                                }
+                            }
+                        }
+                        
 
                         finalDiscountsList.Add(new FinalDiscounts { DiscountAmout = calculatedDiscount, DiscountText = discountForItem.DiscountText });
                     }
@@ -140,7 +156,7 @@ namespace PriceBasket
         {
             Console.WriteLine("SubTotal: £" + _finalReceipt.SubTotalAmount);
             foreach (var discounts in _finalReceipt.FinalDiscounts)
-                Console.WriteLine(discounts.DiscountAmout + discounts.DiscountText);
+                Console.WriteLine(discounts.DiscountText + discounts.DiscountAmout);
             Console.WriteLine("Total: £" + _finalReceipt.TotalAmount);
 
             Console.ReadLine();
@@ -179,12 +195,13 @@ namespace PriceBasket
         public String DiscountUnit { get; set; }
         public bool DiscountOnSameProduct { get; set; }
         public String OtherDiscountedProductName { get; set; }
+        public Duration DiscountValidTime { get; set; }
+    }
 
-        public class Duration
-        {
-            public DateTime StartDate { get; set; }
-            public DateTime EndDate { get; set; }
-        }
+    public class Duration
+    {
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
 
