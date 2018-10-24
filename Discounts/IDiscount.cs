@@ -10,5 +10,6 @@ namespace Discounts
     {
         void AddDiscounts();
         int CalculateDiscounts();
+        void VerifyMultipleDiscounts(); // implement logic if there are multiple discounts on same product
     }
 }
