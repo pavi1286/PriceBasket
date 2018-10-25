@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Discounts
+namespace Receipts
 {
-    public interface IDiscount
+    sealed class FinalReceipt
     {
-        void AddDiscounts();
-        double GetDiscountedAmount();
     }
 }

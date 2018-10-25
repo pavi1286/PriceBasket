@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceBasket", "PriceBasket\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discounts", "Discounts\Discounts.csproj", "{1D7904C0-04BF-47C3-930F-58F8A84754BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{A626836C-6AF3-48A5-A2D0-697FB32D231A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotalReceipt", "TotalReceipt\TotalReceipt.csproj", "{05FCD03C-B0B0-4329-91E5-C81CF6D988E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{1D7904C0-04BF-47C3-930F-58F8A84754BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D7904C0-04BF-47C3-930F-58F8A84754BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D7904C0-04BF-47C3-930F-58F8A84754BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A626836C-6AF3-48A5-A2D0-697FB32D231A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A626836C-6AF3-48A5-A2D0-697FB32D231A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A626836C-6AF3-48A5-A2D0-697FB32D231A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A626836C-6AF3-48A5-A2D0-697FB32D231A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05FCD03C-B0B0-4329-91E5-C81CF6D988E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05FCD03C-B0B0-4329-91E5-C81CF6D988E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05FCD03C-B0B0-4329-91E5-C81CF6D988E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05FCD03C-B0B0-4329-91E5-C81CF6D988E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
